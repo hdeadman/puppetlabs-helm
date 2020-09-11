@@ -8,7 +8,7 @@ module Puppet::Parser::Functions
     opts = args[0] || {}
     flags = []
     flags << 'install' if opts['ensure'] && opts['ensure'].to_s == 'present'
-    flags << "'#{opts['release_name']}'" if opts['release_name'] && opts['release_name'].to_s != 'undef' && opts['helm_version'] >= 3
+    flags << "'#{opts['release_name']}'" if opts['release_name'] && opts['release_name'].to_s != 'undef' && opts['helm_version'].to_i >= 3
     flags << "--ca-file '#{opts['ca_file']}'" if opts['ca_file'] && opts['ca_file'].to_s != 'undef'
     flags << "--cert-file '#{opts['cert_file']}'" if opts['cert_file'] && opts['cert_file'].to_s != 'undef'
     flags << '--debug' if opts['debug']
@@ -19,7 +19,7 @@ module Puppet::Parser::Functions
     flags << "--home '#{opts['home']}'" if opts['home'] && opts['home'].to_s != 'undef'
     flags << "--host '#{opts['host']}'" if opts['host'] && opts['host'].to_s != 'undef'
     flags << "--kube-context '#{opts['kube_context']}'" if opts['kube_context'] && opts['kube_context'].to_s != 'undef'
-    flags << "--name '#{opts['release_name']}'" if opts['release_name'] && opts['release_name'].to_s != 'undef' && opts['helm_version'] < 3
+    flags << "--name '#{opts['release_name']}'" if opts['release_name'] && opts['release_name'].to_s != 'undef' && opts['helm_version'].to_i < 3
     flags << "--name-template '#{opts['name_template']}'" if opts['name_template'] && opts['name_template'].to_s != 'undef'
     flags << "--namespace '#{opts['namespace']}'" if opts['namespace'] && opts['namespace'].to_s != 'undef'
     flags << '--no-hooks' if opts['no_hooks']
