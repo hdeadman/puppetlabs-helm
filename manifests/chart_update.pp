@@ -115,6 +115,9 @@
 # @param chart
 #   The file system location of the package.
 #
+# @param helm_version
+#   The version of helm being used
+#
 define helm::chart_update (
   String $ensure                  = present,
   Optional[String] $ca_file       = undef,
@@ -151,6 +154,7 @@ define helm::chart_update (
   Boolean $verify                 = false,
   Optional[String] $version       = undef,
   Boolean $wait                   = false,
+  String $helm_version            = $::helm::version,
 ){
 
   include ::helm::params
@@ -204,6 +208,7 @@ define helm::chart_update (
       ensure => $ensure,
       debug => $debug,
       dry_run => $dry_run,
+      helm_version => $helm_version[0],
       home => $home,
       host => $host,
       kube_context => $kube_context,
@@ -227,6 +232,7 @@ define helm::chart_update (
       host => $host,
       kube_context => $kube_context,
       tiller_namespace => $tiller_namespace,
+      namespace => $namespace,
       short => true,
       tls => $tls,
       tls_ca_cert => $tls_ca_cert,

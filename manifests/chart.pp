@@ -107,6 +107,9 @@
 # @param chart
 #   The file system location of the package.
 #
+# @param helm_version
+#   The version of helm being used
+#
 define helm::chart (
   String $ensure                      = present,
   Optional[String] $ca_file           = undef,
@@ -141,6 +144,7 @@ define helm::chart (
   Boolean $verify                     = false,
   Optional[String] $version           = undef,
   Boolean $wait                       = false,
+  String $helm_version                = $::helm::version,
 ){
 
   include ::helm::params
@@ -181,6 +185,7 @@ define helm::chart (
       verify => $verify,
       version => $version,
       wait => $wait,
+      helm_version => $helm_version[0],
       })
     $exec = "helm install ${name}"
     $exec_chart = "helm ${helm_install_flags}"
@@ -190,12 +195,14 @@ define helm::chart (
       host => $host,
       kube_context => $kube_context,
       tiller_namespace => $tiller_namespace,
+      namespace => $namespace,
       short => true,
       tls => $tls,
       tls_ca_cert => $tls_ca_cert,
       tls_cert => $tls_cert,
       tls_key => $tls_key,
       tls_verify => $tls_verify,
+      helm_version => $helm_version[0],
     })
     $unless_chart = "helm ${helm_ls_flags} | grep -q '^${release_name}$'"
   }
@@ -220,6 +227,7 @@ define helm::chart (
       tls_cert => $tls_cert,
       tls_key => $tls_key,
       tls_verify => $tls_verify,
+      helm_version => $helm_version[0],
       })
     $exec = "helm delete ${name}"
     $exec_chart = "helm ${helm_delete_flags}"
@@ -229,12 +237,14 @@ define helm::chart (
       host => $host,
       kube_context => $kube_context,
       tiller_namespace => $tiller_namespace,
+      namespace => $namespace,
       short => true,
       tls => $tls,
       tls_ca_cert => $tls_ca_cert,
       tls_cert => $tls_cert,
       tls_key => $tls_key,
       tls_verify => $tls_verify,
+      helm_version => $helm_version[0],
     })
     $unless_chart = "helm ${helm_ls_flags} | awk '{if(\$1 == \"${release_name}\") exit 1}'"
   }

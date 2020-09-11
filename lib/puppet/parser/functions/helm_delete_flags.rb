@@ -13,9 +13,10 @@ module Puppet::Parser::Functions
     flags << "--host '#{opts['host']}'" if opts['host'].to_s != 'undef'
     flags << "--kube-context '#{opts['kube_context']}'" if opts['kube_context'].to_s != 'undef'
     flags << '--no-hooks' if opts['no_hooks']
-    flags << '--purge' if opts['purge']
+    flags << '--purge' if opts['purge'] && opts['helm_version'].to_i >= 3
     flags << "--timeout '#{opts['timeout']}'" if opts['timeout'] && opts['timeout'].to_s != 'undef'
     flags << "--tiller-namespace '#{opts['tiller_namespace']}'" if opts['tiller_namespace'].to_s != 'undef'
+    flags << "--namespace '#{opts['namespace']}'" if opts['namespace'] && opts['namespace'].to_s != 'undef' && opts['helm_version'].to_i >= 3
     flags << '--tls' if opts['tls']
     flags << "--tls-ca-cert '#{opts['tls_ca_cert']}'" if opts['tls_ca_cert'].to_s != 'undef'
     flags << "--tls-cert '#{opts['tls_cert']}'" if opts['tls_cert'].to_s != 'undef'

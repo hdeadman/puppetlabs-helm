@@ -12,6 +12,7 @@ module Puppet::Parser::Functions
     flags << "--host '#{opts['host']}'" if opts['host'] && opts['host'].to_s != 'undef'
     flags << "--kube-context '#{opts['kube_context']}'" if opts['kube_context'] && opts['kube_context'].to_s != 'undef'
     flags << "--tiller-namespace '#{opts['tiller_namespace']}'" if opts['tiller_namespace'] && opts['tiller_namespace'].to_s != 'undef'
+    flags << "--namespace '#{opts['namespace']}'" if opts['namespace'] && opts['namespace'].to_s != 'undef' && opts['helm_version'].to_i >= 3
     flags << '--short' if opts['short']
     flags << '--tls' if opts['tls']
     flags << "--tls-ca-cert '#{opts['tls_ca_cert']}'" if opts['tls_ca_cert'] && opts['tls_ca_cert'].to_s != 'undef'
